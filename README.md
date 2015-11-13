@@ -13,6 +13,18 @@ All rights reserved.
 7. use "/leave" to leave the chat room.
 8. use "/quit" to quit chat server.
 
+[Architecture]
+Client:
+1.telnet terminal.
+
+Server:
+1.User:
+  1)when server monitor one client connectin reached, allocate one thread to the user. 'User' object is used to maintain the connection and communication with clent in one to one mode.
+2.Hall:
+  1)when user login server, Hall maintain all the user list and all the users' activity status, e.g. talk with others. Hall works in one to many mode.
+3.Log:
+  3)Log user activity and server activity to log files.
+
 [Update history]
 [2015-11-11]
 start to develop project.
