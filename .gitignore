@@ -1,3 +1,11 @@
+#Visual studio temp file
+**/obj/**
+**/bin/**
+ChatLog.txt
+*.exe*
+*.pdb*
+*.vshost.exe*
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
