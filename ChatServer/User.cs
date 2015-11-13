@@ -17,7 +17,7 @@ namespace ChatServer
      * User can speak with others in the same room.
      * User can use series command, e.g. '/join', '/quit'.
      * */
-    class User
+    class User : IUser
     {
         private bool status = true;  //connect status. true:ok, false:quit
         private string userName = "";
@@ -133,17 +133,19 @@ namespace ChatServer
         }
 
         //Send Message to client.
-        public void SendToClient(string message)
+        public bool SendToClient(string message)
         {
             try
             {
                 Log.append("to [" + useripep.Address + ":" + useripep.Port + "]: " + message);
                 streamWriter.Write(message);
+                return true;  //send success.
             }
             catch (Exception e)
             {
                 Log.append("Exception: " + e.ToString());
             }
+            return false;
         }
 
         //get user name.
@@ -244,7 +246,7 @@ namespace ChatServer
 
                 hall.AddUserToRoom(this, roomName);
 
-                List<User> userList = hall.GetUserListFromRoom(roomName);
+                List<IUser> userList = hall.GetUserListFromRoom(roomName);
                 string reply = "<= entering room:"+roomName+"\r\n";
                 foreach (var it in userList)
                 {

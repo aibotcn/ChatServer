@@ -14,15 +14,15 @@ namespace ChatServer
     class Hall
     {
         private static Hall instance = null;
-        private Dictionary<string, List<User>> roomMap;
-        private Dictionary<User, string> userMap;
+        private Dictionary<string, List<IUser>> roomMap = null;
+        private Dictionary<IUser, string> userMap = null;
         public const string publicRoomName = "public";
         public const string nullRoomName = "";
         private Hall() 
         {
-            userMap = new Dictionary<User, string>();
-            roomMap = new Dictionary<string, List<User>>();
-            roomMap.Add(publicRoomName, new List<User>());//public always exist
+            userMap = new Dictionary<IUser, string>();
+            roomMap = new Dictionary<string, List<IUser>>();
+            roomMap.Add(publicRoomName, new List<IUser>());//public always exist
         }
 
         //get single instance
@@ -36,7 +36,7 @@ namespace ChatServer
 
         /* User send message to his room. all others will receive this message.
          * */
-        public void UserSendMassageToRoom(User user, string message)
+        public void UserSendMassageToRoom(IUser user, string message)
         {
             if (userMap[user] == nullRoomName)
                 return;  //user not in any room
@@ -68,7 +68,7 @@ namespace ChatServer
 
         /* check whether user is already in Hall.
          * */
-        public bool ContainUser(User user)
+        public bool ContainUser(IUser user)
         {
             return userMap.ContainsKey(user);
         }
@@ -94,7 +94,7 @@ namespace ChatServer
             if (ContainRoom(name))
                 return false;
             
-            roomMap.Add(name, new List<User>());
+            roomMap.Add(name, new List<IUser>());
             return true;
         }
 
@@ -111,7 +111,7 @@ namespace ChatServer
          * If room is not specified, add to 'public' room.
          * If user in other room, switch to specified room.
          * */
-        public bool AddUserToRoom(User user, string roomName = publicRoomName)
+        public bool AddUserToRoom(IUser user, string roomName = publicRoomName)
         {
             if (!ContainRoom(roomName))
                 return false;  //room not exist
@@ -135,7 +135,7 @@ namespace ChatServer
         /* Remove user from room. when last user leave, room will be removed too
          * 'public' room always exist.
          * */
-        public void RemoveUserFromRoom(User user)
+        public void RemoveUserFromRoom(IUser user)
         {
             if (userMap[user] == nullRoomName)  //user not in any room.
                 return;
@@ -156,7 +156,7 @@ namespace ChatServer
 
         /* User login server.
          * */
-        public void AddUserToHall(User user)
+        public void AddUserToHall(IUser user)
         {
             if (ContainUser(user))
                 throw new Exception("duplicate user checked");
@@ -165,7 +165,7 @@ namespace ChatServer
 
         /* User quit from server.
          * */
-        public void RemoveUserFromHall(User user)
+        public void RemoveUserFromHall(IUser user)
         {
             if (!userMap.ContainsKey(user))
                 return;
@@ -189,7 +189,7 @@ namespace ChatServer
 
         /* Get user list in the specified room.
          * */
-        public List<User> GetUserListFromRoom(string name)
+        public List<IUser> GetUserListFromRoom(string name)
         {
             if (ContainRoom(name))
             {
@@ -197,13 +197,13 @@ namespace ChatServer
             }
             else
             {
-                return new List<User>();
+                return new List<IUser>();
             }
         }
 
         /* Get user's room.
          * */
-        public string GetRoomFromUser(User user)
+        public string GetRoomFromUser(IUser user)
         {
             if (ContainUser(user))  //if user exist
                 return userMap[user];
