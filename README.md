@@ -15,7 +15,7 @@ All rights reserved.
 
 [Update history]
 [2015-11-11]
-# start to develop project.
+start to develop project.
 
 [2015-11-13]
 # ChatServer v0.1
