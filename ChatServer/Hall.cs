@@ -13,7 +13,7 @@ namespace ChatServer
      * */
     class Hall
     {
-        private static Hall instance = null;
+        private static Hall instance = new Hall();
         private Dictionary<string, List<IUser>> roomMap = null;
         private Dictionary<IUser, string> userMap = null;
         public const string publicRoomName = "public";
@@ -26,11 +26,7 @@ namespace ChatServer
         }
 
         //get single instance
-        public static Hall GetInstance(){
-            if (instance == null)
-            {
-                instance = new Hall();
-            }
+        public static Hall GetInstance(){           
             return instance;
         }
 

@@ -1,0 +1,29 @@
+﻿2015-11-11 start develop
+
+2015-11-13 version 0.1
+basic features
+
+2015-11-17 bug fix
+bug-1: login() command IO exception. 
+description: after about 15 hours when client disconnected, sever lost connection without exception processing when user stay in login stage.
+status: fixed
+reason: directly call streamReader to obtain data stream. it should call ReceiveFromClient() which includes exception processing.
+
+bug-2: login() logic wrong.
+description: when user input command in login stage. command cannot be processed.
+status:
+
+bug-3: quit bug
+description: when exception happens, chat thread not clear resources.
+status:
+reason:
+
+bug-4: command
+description: most of command require login before processing.
+status:
+reason:
+
+2015-11-18 bug fix
+bug: ReceiveFromClient(), SendToClient() IO Exception processing.
+status: fixed.
+reason: streamReader(), streamWriter() does not throw Exception as expected.

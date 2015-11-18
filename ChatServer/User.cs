@@ -44,22 +44,11 @@ namespace ChatServer
 
             while (status)
             {
-                try
-                {
-                    string receiveString = ReceiveFromClient();
-                    if (receiveString == null)  //reach the end of stream. client shutdown.
-                        QuitCommand();
-                    if (receiveString == "")
-                        continue;
-                    //Message process
-                    MessageProcessing(receiveString);
-                }
-                catch(Exception e)  //network exception.
-                {
-                    Log.append("Exception: " + e.ToString());
-                    QuitCommand();
-                }               
+                string receiveString = ReceiveFromClient();
+                if (receiveString != "")
+                    MessageProcessing(receiveString);                              
             }
+            QuitCommand();//chat terminated. clear resources.
         }
 
         public void MessageProcessing(string message)
@@ -121,15 +110,24 @@ namespace ChatServer
         //Receive Message from client.
         public string ReceiveFromClient()
         {
+            string receiveString = null;
             try
             {
-                return streamReader.ReadLine();
+                receiveString = streamReader.ReadLine();                
             }
             catch (Exception e)
             {
-                Log.append("Exception: " + e.ToString());
+                Log.append("Exception: " + e.ToString());               
             }
-            return null;
+            if (receiveString != null)
+            {
+                return receiveString;
+            }
+            else
+            {
+                status = false;//Exception occur, close connection.
+                return "";
+            }
         }
 
         //Send Message to client.
@@ -144,8 +142,9 @@ namespace ChatServer
             catch (Exception e)
             {
                 Log.append("Exception: " + e.ToString());
+                status = false;//Exception occur, close connection.
+                return false;
             }
-            return false;
         }
 
         //get user name.
@@ -172,27 +171,25 @@ namespace ChatServer
         public void LoginCommand()
         {
             SendToClient("<= welcome to Yulong's chat server\r\n<= Login Name?\r\n=> ");
-            while (true)
+            while (status)
             {
-                string name = streamReader.ReadLine();
+                string name = ReceiveFromClient();
                 name = name.Trim();
-                if (name == "")
+                if (name != "")
                 {
-                    SendToClient("=> ");
-                    continue;
-                }
-                name = Regex.Replace(name, "[^a-zA-Z0-9_]","");
+                    name = Regex.Replace(name, "[^a-zA-Z0-9_]", "");
 
-                if (Hall.GetInstance().ContainUser(name))
-                {
-                    SendToClient("<= Sorry, name taken.\r\n<= Login Name?\r\n=> ");
-                }
-                else
-                {
-                    userName = name;
-                    Hall.GetInstance().AddUserToHall(this);
-                    SendToClient("<= Welcome " + userName + "!\r\n=> ");
-                    break;
+                    if (Hall.GetInstance().ContainUser(name))
+                    {
+                        SendToClient("<= Sorry, name taken.\r\n<= Login Name?\r\n=> ");
+                    }
+                    else
+                    {
+                        userName = name;
+                        Hall.GetInstance().AddUserToHall(this);
+                        SendToClient("<= Welcome " + userName + "!\r\n=> ");
+                        break;
+                    }
                 }
             }
         }
