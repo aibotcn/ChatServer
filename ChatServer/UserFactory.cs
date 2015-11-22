@@ -13,7 +13,7 @@ namespace ChatServer
         public static void UserSession(object threadContext)
         {
             Socket userSocket = (Socket)threadContext;
-            User user = new User(userSocket);
+            SocketUser user = new SocketUser(userSocket);
             user.Chat();
         }
     }

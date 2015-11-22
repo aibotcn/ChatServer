@@ -11,19 +11,25 @@ reason: directly call streamReader to obtain data stream. it should call Receive
 
 bug-2: login() logic wrong.
 description: when user input command in login stage. command cannot be processed.
-status:
+status: fixed
+solution: login, logout are not command, user must login before execute any command.
 
 bug-3: quit bug
 description: when exception happens, chat thread not clear resources.
-status:
-reason:
+status: fixed
+solution: extract Quit procedure and only execute when chat done.
 
 bug-4: command
 description: most of command require login before processing.
-status:
-reason:
+status: fixed
 
 2015-11-18 bug fix
 bug: ReceiveFromClient(), SendToClient() IO Exception processing.
 status: fixed.
 reason: streamReader(), streamWriter() does not throw Exception as expected.
+
+2015--11-22 
+1.architecture redesign, make it more easier to scale with more complex features.
+1)split Command class from User class to support scale of different user map to different command set.
+2)split UserStatus class from User class to treat it as configuration. Easy to scale.
+2.add "/help command".

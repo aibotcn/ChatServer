@@ -11,6 +11,8 @@ namespace ChatServer
     interface IUser
     {
         bool SendToClient(string message);
-        string GetUserName();
+        string ReceiveFromClient();
+        UserStatus GetStatus();
+        void SetStatus(UserStatus status);
     }
 }

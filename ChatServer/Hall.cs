@@ -75,7 +75,7 @@ namespace ChatServer
         {
             foreach (var it in userMap)
             {
-                if (it.Key.GetUserName() == name)
+                if (it.Key.GetStatus().UserName == name)
                 {
                     return true;
                 }
@@ -124,7 +124,7 @@ namespace ChatServer
             userMap[user] = roomName;                              
             roomMap[roomName].Add(user);               
             //Notify others.
-            UserSendMassageToRoom(user, "\r\n<= *new user joined chat: "+user.GetUserName()+"\r\n=> ");
+            UserSendMassageToRoom(user, "\r\n<= *new user joined chat: "+user.GetStatus().UserName+"\r\n=> ");
             return true;
         }
 
@@ -140,8 +140,8 @@ namespace ChatServer
             roomMap[roomname].Remove(user);
             userMap[user] = nullRoomName;
 
-            RoomBroadcast(roomname, "\r\n<= *user has left chat: "+user.GetUserName()+"\r\n=> ");
-            user.SendToClient("\r\n<= *user has left chat: " + user.GetUserName() + " (**this is you)\r\n");
+            RoomBroadcast(roomname, "\r\n<= *user has left chat: "+user.GetStatus().UserName+"\r\n=> ");
+            user.SendToClient("\r\n<= *user has left chat: " + user.GetStatus().UserName + " (**this is you)\r\n");
 
             //when last user leave
             if (roomMap[roomname].Count == 0 && roomname != publicRoomName)
