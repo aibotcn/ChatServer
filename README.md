@@ -37,7 +37,7 @@ Server:
   1)supported command operations. different user type can have different command strategy and command set.
   
 5.UserStatus:
-  1)maintain all the configuration of online user.
+  1)maintain the configuration of online user.
 
 [Update history]
 
