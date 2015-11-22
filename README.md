@@ -31,7 +31,7 @@ Server:
 start to develop project.
 
 [2015-11-13]
-# ChatServer v0.1
+ChatServer v0.1
 support multiple users chat in real-time.
 support command "help","login","rooms","create","join","leave","quit".
 
