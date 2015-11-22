@@ -12,6 +12,7 @@ All rights reserved.
 6. enter anything to talk with others in the same chat room.
 7. use "/leave" to leave the chat room.
 8. use "/quit" to quit chat server.
+9. use "/help" to obtain supported command list.
 
 [Architecture]
 Client:
@@ -32,4 +33,8 @@ start to develop project.
 [2015-11-13]
 # ChatServer v0.1
 support multiple users chat in real-time.
-support command "login","rooms","create","join","leave","quit".
+support command "help","login","rooms","create","join","leave","quit".
+
+[2015-11-22]
+# ChatServer v0.2
+redesign architecture to make it easier to scale with more features.
